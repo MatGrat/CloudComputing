@@ -1,12 +1,29 @@
-version: '3.8'
 services:
-  web:
+  frontend:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile
+    container_name: homi_shoppi_react
     ports:
       - "3000:3000"
     volumes:
-      - ./public:/app/public  
-      - ./src:/app/src
+      - ./frontend/public:/app/public  
+      - ./frontend/src:/app/src
     command: ["npm", "start"]
+  
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    container_name: homi_shoppi_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: homi_shoppi_db
+      MYSQL_USER: user 
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql  
+volumes:
+  db_data:
