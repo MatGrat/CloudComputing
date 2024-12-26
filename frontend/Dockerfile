@@ -3,6 +3,7 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm install
+RUN npm install react-bootstrap bootstrap
 
 COPY ./public ./public
 COPY ./src ./src
