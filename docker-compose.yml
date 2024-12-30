@@ -11,9 +11,9 @@ services:
       - ./frontend/src:/app/src
     command: ["npm", "start"]
   
-  db:
+  database:
     build:
-      context: ./db
+      context: ./database
       dockerfile: Dockerfile
     container_name: homi_shoppi_mysql
     environment:
@@ -25,12 +25,22 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql  
+  
+  microservice-product:
+    build: 
+      context: ./backend/product-service
+      dockerfile: Dockerfile
+    container_name: microservice-product
+    ports:
+      - "5001:5000"
+    depends_on:
+      - database
 
-  nginx:
+  server:
     image: nginx
     container_name: homi_shoppi_nginx
     volumes:
-      - ./templates:/etc/nginx/templates
+      - ./server/templates:/etc/nginx/templates
     ports:
       - "8080:80"
     environment:
