@@ -1,13 +1,21 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
+const cors = require('cors'); 
+
 const app = express();
-const PORT = 5000;
+const PORT = 5001;
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+};
+
+app.use(cors(corsOptions));
 
 const pool = mysql.createPool({
-    host: 'database', 
+    host: 'hsdb', 
     user: 'root',
     password: 'rootpassword',
-    database: 'homi_shoppi_db',
+    database: 'hsdb',
   });
 
 app.get('/', (req, res) => {

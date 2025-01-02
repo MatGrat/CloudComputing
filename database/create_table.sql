@@ -1,4 +1,4 @@
-USE homi_shoppi_db;
+USE hsdb;
 
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
