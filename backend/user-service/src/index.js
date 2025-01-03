@@ -10,6 +10,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
 
 const pool = mysql.createPool({
     host: 'hsdb', 
@@ -50,46 +51,46 @@ app.get('/users/:id', async (req, res) => {
 
 // POST /users
 app.post('/users', async (req, res) => {
-  const { userID, productID } = req.body;
+  const { UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN } = req.body;
 
-  if (!userID || !productID) {
+  if (!UserName || !UserMail || !UserFirstName || !UserLastName || !UserPassword || !UserStreet || !UserCity || !UserPostalCode || !UserIBAN) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `INSERT INTO Products (UserID, ProductID) VALUES (?, ?) RETURNING *`,
-      [userID, productID]
+      `INSERT INTO Users (UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN]
     );
 
     res.status(201).json(rows[0]); 
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error creating shopcart');
+    res.status(500).send('Error creating user');
   }
 });
 
 // PUT /users/{id}
 app.put('/users/:id', async (req, res) => {
   const { id } = req.params;
-  const { userID, productID } = req.body; 
+  const {UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN } = req.body; 
   
-  if (!userID || !productID) {
+  if (!UserName || !UserMail || !UserFirstName || !UserLastName || !UserPassword || !UserStreet || !UserCity || !UserPostalCode || !UserIBAN) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `UPDATE ShopCarts SET UserID = ?, ProductID = ? WHERE ShopCartID = ? RETURNING *`,
-      [userID, productID, id]
+      `UPDATE Users SET UserName = ?, UserMail = ?, UserFirstName = ?, UserLastName = ?, UserPassword = ?, UserStreet = ?, UserCity = ?, UserPostalCode = ?, UserIBAN = ? WHERE UserID = ?`,
+      [UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN, id]
     );
     if (rows.length === 0) {
-      return res.status(404).send('Shopcart not found');
+      return res.status(404).send('User not found');
     }
     res.status(200).json(rows[0]);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error updating shopcart');
+    res.status(500).send('Error updating user');
   }
 });
 
@@ -97,7 +98,7 @@ app.put('/users/:id', async (req, res) => {
 app.delete('/users/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [rows] = await pool.query(`DELETE FROM Users WHERE UserID = ? RETURNING *`, [id]);
+    const [rows] = await pool.query(`DELETE FROM Users WHERE UserID = ?`, [id]);
     if (rows.length === 0) {
       return res.status(404).send('User not found');
     }

@@ -10,6 +10,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
 
 const pool = mysql.createPool({
     host: 'hsdb', 
@@ -50,16 +51,16 @@ app.get('/shopcarts/:id', async (req, res) => {
 
 // POST /shopcarts
 app.post('/shopcarts', async (req, res) => {
-  const { userID, productID } = req.body;
+  const { UserID, ProductID } = req.body;
 
-  if (!userID || !productID) {
+  if (!UserID || !ProductID) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `INSERT INTO Products (UserID, ProductID) VALUES (?, ?) RETURNING *`,
-      [userID, productID]
+      `INSERT INTO ShopCarts (UserID, ProductID) VALUES (?, ?)`,
+      [UserID, ProductID]
     );
 
     res.status(201).json(rows[0]); 
@@ -72,16 +73,16 @@ app.post('/shopcarts', async (req, res) => {
 // PUT /shopcarts/{id}
 app.put('/shopcarts/:id', async (req, res) => {
   const { id } = req.params;
-  const { userID, productID } = req.body; 
+  const { UserID, ProductID } = req.body; 
   
-  if (!userID || !productID) {
+  if (!UserID || !ProductID) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `UPDATE ShopCarts SET UserID = ?, ProductID = ? WHERE ShopCartID = ? RETURNING *`,
-      [userID, productID, id]
+      `UPDATE ShopCarts SET UserID = ?, ProductID = ? WHERE ShopCartID = ?`,
+      [UserID, ProductID, id]
     );
     if (rows.length === 0) {
       return res.status(404).send('Shopcart not found');
@@ -97,7 +98,7 @@ app.put('/shopcarts/:id', async (req, res) => {
 app.delete('/shopcarts/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const [rows] = await pool.query(`DELETE FROM ShopCarts WHERE ShopCartID = ? RETURNING *`, [id]);
+    const [rows] = await pool.query(`DELETE FROM ShopCarts WHERE ShopCartID = ?`, [id]);
     if (rows.length === 0) {
       return res.status(404).send('Shopcart not found');
     }
