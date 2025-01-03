@@ -1,4 +1,4 @@
-import GetProducts from '../../service/GetProducts';
+import GetProducts from '../../hooks/produkt-hook';
 
 function Home() {
   const {data: products, loading, error } = GetProducts();
@@ -11,7 +11,7 @@ function Home() {
       <h1>Products</h1>
       <ul>
           {products.map(product => (
-            <li key={product.id}>{product.name}</li>
+            <li key={product.ProductID}>{product.ProductName}</li>
           ))}
       </ul>
     </div>

@@ -7,5 +7,5 @@ RUN npm install cors
 
 COPY . .
 
-EXPOSE 5004
+EXPOSE 5006
 CMD ["npm", "start"]

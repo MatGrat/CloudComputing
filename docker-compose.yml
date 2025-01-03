@@ -32,7 +32,19 @@ services:
     volumes:
       - ./database:/docker-entrypoint-initdb.d
     networks:
-      - hs-network  
+      - hs-network
+
+  microservice-order:
+    build: 
+      context: ./backend/order-service
+      dockerfile: Dockerfile
+    container_name: microservice-order
+    ports:
+      - "5003:5003"
+    depends_on:
+      - hsdb
+    networks:
+      - hs-network    
   
   microservice-product:
     build: 
@@ -40,11 +52,35 @@ services:
       dockerfile: Dockerfile
     container_name: microservice-product
     ports:
-      - "5001:5001"
+      - "5004:5004"
+    depends_on:
+      - hsdb
+    networks:
+      - hs-network 
+
+  microservice-shop-cart:
+    build: 
+      context: ./backend/shop-cart-service
+      dockerfile: Dockerfile
+    container_name: microservice-shop-cart
+    ports:
+      - "5005:5005"
     depends_on:
       - hsdb
     networks:
       - hs-network  
+
+  microservice-user:
+    build: 
+      context: ./backend/user-service
+      dockerfile: Dockerfile
+    container_name: microservice-user
+    ports:
+      - "5006:5006"
+    depends_on:
+      - hsdb
+    networks:
+      - hs-network   
 
   hs-nginx:
     image: nginx
