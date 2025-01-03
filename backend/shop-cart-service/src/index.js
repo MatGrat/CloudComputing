@@ -18,16 +18,93 @@ const pool = mysql.createPool({
     database: 'hsdb',
   });
 
+  // GET /
 app.get('/', (req, res) => {
   res.send('Welcome to the ShopCart Service!');
 });
 
+// GET /shopcarts
 app.get('/shopcarts', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM ShopCarts');
     res.json(rows);
   } catch (error) {
     res.status(500).send('Error fetching shopcarts');
+  }
+});
+
+// GET /shopcarts/{id}
+app.get('/shopcarts/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query(`SELECT * FROM ShopCarts WHERE ShopCartID = ?`, [id]);
+    if (rows.length === 0) {
+      return res.status(404).send('Shopcart not found');
+    }
+    res.status(200).json(rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching shopcart');
+  }
+});
+
+// POST /shopcarts
+app.post('/shopcarts', async (req, res) => {
+  const { userID, productID } = req.body;
+
+  if (!userID || !productID) {
+    return res.status(400).send('Missing fields');
+  }
+
+  try {
+    const [rows] = await pool.query(
+      `INSERT INTO Products (UserID, ProductID) VALUES (?, ?) RETURNING *`,
+      [userID, productID]
+    );
+
+    res.status(201).json(rows[0]); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error creating shopcart');
+  }
+});
+
+// PUT /shopcarts/{id}
+app.put('/shopcarts/:id', async (req, res) => {
+  const { id } = req.params;
+  const { userID, productID } = req.body; 
+  
+  if (!userID || !productID) {
+    return res.status(400).send('Missing fields');
+  }
+
+  try {
+    const [rows] = await pool.query(
+      `UPDATE ShopCarts SET UserID = ?, ProductID = ? WHERE ShopCartID = ? RETURNING *`,
+      [userID, productID, id]
+    );
+    if (rows.length === 0) {
+      return res.status(404).send('Shopcart not found');
+    }
+    res.status(200).json(rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating shopcart');
+  }
+});
+
+// DELETE /shopcarts/{id}
+app.delete('/shopcarts/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query(`DELETE FROM ShopCarts WHERE ShopCartID = ? RETURNING *`, [id]);
+    if (rows.length === 0) {
+      return res.status(404).send('Shopcart not found');
+    }
+    res.status(200).send('Shopcart deleted');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error deleting shopcart');
   }
 });
   

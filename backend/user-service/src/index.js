@@ -18,16 +18,93 @@ const pool = mysql.createPool({
     database: 'hsdb',
   });
 
+  // GET /
 app.get('/', (req, res) => {
   res.send('Welcome to the User Service!');
 });
 
+// GET /users
 app.get('/users', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT * FROM Users');
     res.json(rows);
   } catch (error) {
     res.status(500).send('Error fetching users');
+  }
+});
+
+// GET /users/{id}
+app.get('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query(`SELECT * FROM Users WHERE UserID = ?`, [id]);
+    if (rows.length === 0) {
+      return res.status(404).send('User not found');
+    }
+    res.status(200).json(rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching user');
+  }
+});
+
+// POST /users
+app.post('/users', async (req, res) => {
+  const { userID, productID } = req.body;
+
+  if (!userID || !productID) {
+    return res.status(400).send('Missing fields');
+  }
+
+  try {
+    const [rows] = await pool.query(
+      `INSERT INTO Products (UserID, ProductID) VALUES (?, ?) RETURNING *`,
+      [userID, productID]
+    );
+
+    res.status(201).json(rows[0]); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error creating shopcart');
+  }
+});
+
+// PUT /users/{id}
+app.put('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  const { userID, productID } = req.body; 
+  
+  if (!userID || !productID) {
+    return res.status(400).send('Missing fields');
+  }
+
+  try {
+    const [rows] = await pool.query(
+      `UPDATE ShopCarts SET UserID = ?, ProductID = ? WHERE ShopCartID = ? RETURNING *`,
+      [userID, productID, id]
+    );
+    if (rows.length === 0) {
+      return res.status(404).send('Shopcart not found');
+    }
+    res.status(200).json(rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating shopcart');
+  }
+});
+
+// DELETE /users/{id}
+app.delete('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query(`DELETE FROM Users WHERE UserID = ? RETURNING *`, [id]);
+    if (rows.length === 0) {
+      return res.status(404).send('User not found');
+    }
+    res.status(200).send('User deleted');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error deleting user');
   }
 });
   
