@@ -51,16 +51,16 @@ app.get('/users/:id', async (req, res) => {
 
 // POST /users
 app.post('/users', async (req, res) => {
-  const { UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN } = req.body;
+  const { UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserZIP, UserIBAN } = req.body;
 
-  if (!UserName || !UserMail || !UserFirstName || !UserLastName || !UserPassword || !UserStreet || !UserCity || !UserPostalCode || !UserIBAN) {
+  if (!UserName || !UserMail || !UserFirstName || !UserLastName || !UserPassword || !UserStreet || !UserCity || !UserZIP || !UserIBAN) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `INSERT INTO Users (UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN]
+      `INSERT INTO Users (UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserZIP, UserIBAN) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserZIP, UserIBAN]
     );
 
     res.status(201).json(rows[0]); 
@@ -73,16 +73,16 @@ app.post('/users', async (req, res) => {
 // PUT /users/{id}
 app.put('/users/:id', async (req, res) => {
   const { id } = req.params;
-  const {UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN } = req.body; 
+  const {UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserZIP, UserIBAN } = req.body; 
   
-  if (!UserName || !UserMail || !UserFirstName || !UserLastName || !UserPassword || !UserStreet || !UserCity || !UserPostalCode || !UserIBAN) {
+  if (!UserName || !UserMail || !UserFirstName || !UserLastName || !UserPassword || !UserStreet || !UserCity || !UserZIP || !UserIBAN) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `UPDATE Users SET UserName = ?, UserMail = ?, UserFirstName = ?, UserLastName = ?, UserPassword = ?, UserStreet = ?, UserCity = ?, UserPostalCode = ?, UserIBAN = ? WHERE UserID = ?`,
-      [UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserPostalCode, UserIBAN, id]
+      `UPDATE Users SET UserName = ?, UserMail = ?, UserFirstName = ?, UserLastName = ?, UserPassword = ?, UserStreet = ?, UserCity = ?, UserZIP = ?, UserIBAN = ? WHERE UserID = ?`,
+      [UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserZIP, UserIBAN, id]
     );
     if (rows.length === 0) {
       return res.status(404).send('User not found');

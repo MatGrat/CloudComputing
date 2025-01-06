@@ -24,7 +24,7 @@ function NavBar({ modeChange }) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link 
-              href="/account"
+              href="/login"
               className={checked ? styles['link-dark'] : styles['link-light']}
             >Account</Nav.Link>
             <Nav.Link 

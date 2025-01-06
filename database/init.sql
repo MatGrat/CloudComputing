@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Users (
     UserPassword VARCHAR(255) NOT NULL,
     UserStreet VARCHAR(255) NOT NULL,
     UserCity VARCHAR(255) NOT NULL,
-    UserPostalCode VARCHAR(20) NOT NULL,
+    UserZIP VARCHAR(20) NOT NULL,
     UserIBAN VARCHAR(22)
 );
 
@@ -77,3 +77,6 @@ WHERE NOT EXISTS (SELECT 1 FROM Products WHERE ProductName = 'Schere');
 INSERT INTO Products (ProductName, ProductDescription, ProductPrice, ProductImageURL, ProductInventory, ProductDeliveryDays)
 SELECT '100g Käse', 'Beschreibung von Produkt 8', 3.99, 'https://images.unsplash.com/photo-1668104129962-66e931ec9a61?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fEslQzMlQTRzZXxlbnwwfHwwfHx8MA==', 6, 6
 WHERE NOT EXISTS (SELECT 1 FROM Products WHERE ProductName = '100g Käse');
+
+INSERT INTO Users (UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserZIP, UserIBAN)
+VALUES ('MaxMustermann', 'max@mail.de', 'Max', 'Mustermann', 'password123', 'Musterstraße 1', 'Musterstadt', '12345', 'DE12345678901234567890');

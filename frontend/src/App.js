@@ -4,6 +4,8 @@ import Home from './pages/Home/Home.js';
 import Account from './pages/Account/Account.js';
 import ShopCart from './pages/ShopCart/ShopCart.js';
 import Product from './pages/Product/Product.js';
+import Register from './pages/Register/Register.js';
+import Login from './pages/Login/Login.js';
 import { useState } from 'react';
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
         <Route path="account" element={<Account/>}/>
         <Route path="/shopcart" element={<ShopCart/>}/>
         <Route path="/product/:id" element={<Product checked={checked}/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/register" element={<Register/>}/>
       </Routes>
     </BrowserRouter>
   );
