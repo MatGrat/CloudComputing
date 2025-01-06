@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const SHOPCART_URL = 'http://localhost:5005/shopcarts';
 
-export default function getShopCarts() {
+export default function GetShopCarts() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const USER_URL = 'http://localhost:5006/users';
 
-export default function getUsers() {
+export default function GetUsers() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

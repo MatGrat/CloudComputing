@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const ORDER_URL = 'http://localhost:5003/orders';
 
-export default function getOrders() {
+export default function GetOrders() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

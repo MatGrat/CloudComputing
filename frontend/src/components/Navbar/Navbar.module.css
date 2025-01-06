@@ -1,0 +1,17 @@
+.bg-body-light {
+    background-color: #10003b; 
+    color: #000000; 
+}
+
+.bg-body-dark {
+    background-color: #333333; 
+    color: #ffffff; 
+}
+
+.link-dark {
+    color: #dddddd;
+}
+
+.link-light {
+    color: #ffffff; 
+}
