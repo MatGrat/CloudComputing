@@ -57,7 +57,7 @@ export function GetProduct(productID) {
     return { data, loading, error };
 }
 
-export async function CreateProduct(productName, productDescription, productPrice, productImageURL) {
+export async function CreateProduct(productName, productDescription, productPrice, productImageURL, productInventory, productDeliveryDays) {
     try {
         const response = await fetch(PRODUCT_URL, {
             method: 'POST',
@@ -67,6 +67,8 @@ export async function CreateProduct(productName, productDescription, productPric
                 ProductDescription: productDescription,
                 ProductPrice: productPrice,
                 ProductImageUrl: productImageURL,
+                ProductInventory: productInventory,
+                ProductDeliveryDays: productDeliveryDays
             }),
         });
 
@@ -81,7 +83,7 @@ export async function CreateProduct(productName, productDescription, productPric
     }
 }
 
-export async function UpdateProduct(productID, productName, productDescription, productPrice, productImageURL) {
+export async function UpdateProduct(productID, productName, productDescription, productPrice, productImageURL, productInventory, productDeliveryDays) {
     try {
         const response = await fetch(`${PRODUCT_URL}/${productID}`, {
             method: 'PUT',
@@ -91,6 +93,8 @@ export async function UpdateProduct(productID, productName, productDescription, 
                 ProductDescription: productDescription,
                 ProductPrice: productPrice,
                 ProductImageUrl: productImageURL,
+                ProductInventory: productInventory,
+                ProductDeliveryDays: productDeliveryDays
             }),
         });
 
