@@ -20,8 +20,8 @@ function App() {
       <NavBar modeChange={modeChange} />
       <Routes>
         <Route path="/" element={<Home checked={checked}/>}/>
-        <Route path="account" element={<Account/>}/>
-        <Route path="/shopcart" element={<ShopCart/>}/>
+        <Route path="account/:id" element={<Account/>}/>
+        <Route path="/shopcart/:id" element={<ShopCart/>}/>
         <Route path="/product/:id" element={<Product checked={checked}/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
