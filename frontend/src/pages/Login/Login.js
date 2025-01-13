@@ -1,11 +1,37 @@
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { GetUsers } from '../../hooks/user-hook';
 
 function Login() {
+  const {data: users, loading, error } = GetUsers();
+  const navigate = useNavigate();
+
+  if (loading) {
+    console.log('Lädt user...');
+    return;
+  }
+
+  if (error) {
+    console.error('Error:', error);
+    return;
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
+   
+    const userName = formData.get('userName');
+    const userPassword = formData.get('userPassword');
 
+    const foundUser = users.find((user) => user.UserName === userName && user.UserPassword === userPassword);
+
+    if (foundUser) {
+      document.cookie = `authUser=${foundUser.UserID} Logged-In; path=/;`;
+      navigate(`/account/${foundUser.UserID}`);
+    } else {
+      console.error('Ungültiger Benutzername oder Passwort.');
+    }
   }
 
   return (

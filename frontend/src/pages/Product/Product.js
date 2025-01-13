@@ -6,7 +6,7 @@ import styles from './Product.module.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-function Account({ checked }) {
+function Product({ checked }) {
     const { id } = useParams();
     const {data: product, loading, error } = GetProduct(id);
     
@@ -44,7 +44,7 @@ function Account({ checked }) {
                 </Form.Select>
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                    Bestellen
+                    In den ShopWagen
                 </Button>
             </Form>
           </Card.Body>
@@ -53,4 +53,4 @@ function Account({ checked }) {
     );
   }
   
-  export default Account;
+  export default Product;

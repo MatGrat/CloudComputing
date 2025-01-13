@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function Home({ checked }) {
   const {data: products, loading, error } = GetProducts();
 
-  if(loading) return <p>Loading...</p>;
+  if(loading) return <p>Lädt...</p>;
   if(error) return <p>Error: {error}</p>;
 
   return (
