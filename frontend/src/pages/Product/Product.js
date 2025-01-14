@@ -6,7 +6,7 @@ import styles from './Product.module.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-function Product({ checked }) {
+function Product() {
     const { id } = useParams();
     const {data: product, loading, error } = GetProduct(id);
     
@@ -16,12 +16,12 @@ function Product({ checked }) {
 
     return (
         <CardGroup>
-        <Card style={{ width: '18rem' }} className={checked ? styles['card-dark'] : styles['card-light']} onClick>
-            <Card.Header className={checked ? styles['text-dark'] : styles['text-light']}>{product.ProductName}</Card.Header>
+        <Card style={{ width: '18rem' }} className={styles['card-light']} onClick>
+            <Card.Header className={styles['text-light']}>{product.ProductName}</Card.Header>
             <Card.Body>
                 <Card.Img src={product.ProductImageURL}/>
             </Card.Body>
-            <Card.Footer className={checked ? styles['text-dark'] : styles['text-light']}>{product.ProductPrice}€</Card.Footer>
+            <Card.Footer className={styles['text-light']}>{product.ProductPrice}€</Card.Footer>
         </Card>
         <Card>
           <Card.Body>

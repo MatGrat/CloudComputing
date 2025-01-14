@@ -27,7 +27,7 @@ function Login() {
     const foundUser = users.find((user) => user.UserName === userName && user.UserPassword === userPassword);
 
     if (foundUser) {
-      document.cookie = `authUser=${foundUser.UserID} Logged-In; path=/;`;
+      document.cookie = `loggedUser=${foundUser.UserID}; path=/;`;
       navigate(`/account/${foundUser.UserID}`);
     } else {
       console.error('Ungültiger Benutzername oder Passwort.');

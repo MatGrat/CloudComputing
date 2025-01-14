@@ -3,11 +3,18 @@ import { GetUser } from '../../hooks/user-hook';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
 
 function Account() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const {data: user, loading, error } = GetUser(id);
-  
+
+  function handleClick() {
+    document.cookie = `loggedUser=${id}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    navigate("/");
+  }
+
   if(loading) return <p>Loading...</p>;
   if(error) return <p>Error: {error}</p>;
   
@@ -43,7 +50,7 @@ function Account() {
           </Card.Text>
         </Card.Body>
         <Card.Footer>
-            <Button variant="primary">
+            <Button variant="primary" onClick={handleClick}>
               Logout
             </Button>
           </Card.Footer>
