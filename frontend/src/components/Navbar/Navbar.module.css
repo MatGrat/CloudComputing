@@ -8,10 +8,26 @@
     color: #ffffff; 
 }
 
-.link-dark {
+.link-dark-home, .link-dark-acc, .link-dark-shop {
     color: #dddddd;
+    font-weight: bold;
 }
 
-.link-light {
+.link-dark-home, .link-light-home {
+    margin-left: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.link-dark-home:hover, .link-dark-acc:hover, .link-dark-shop:hover {
+    color: #ffffff;
+}
+
+.link-light-home, .link-light-acc, .link-light-shop {
     color: #ffffff; 
+    font-weight: bold;
+}
+
+.link-light-home:hover, .link-light-acc:hover, .link-light-shop:hover {
+    color: #dddddd; 
 }

@@ -1,15 +1,32 @@
+.home-container {
+    background-Color: #97c0ff;
+    min-height: 100vh; 
+    padding: 20px;
+}
+
 .card-dark {
+    border-radius: 25px;
     color: #000000;
 }
 
 .card-light {
+    border-radius: 25px;
     color: #ffffff; 
 }
 
 .text-dark {
     color: #dddddd;
+    font-weight: bold;
+    text-align: center;
 }
 
 .text-light {
     color: #000000; 
+    font-weight: bold;
+    text-align: center;
+}
+
+Img {
+    height: 200px;
+    width: 100px;
 }

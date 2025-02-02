@@ -51,16 +51,18 @@ app.get('/shopcarts/:id', async (req, res) => {
 
 // POST /shopcarts
 app.post('/shopcarts', async (req, res) => {
-  const { UserID, ProductID } = req.body;
+  const { UserID } = req.body;
 
-  if (!UserID || !ProductID) {
+  console.log(UserID);
+
+  if (!UserID) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `INSERT INTO ShopCarts (UserID, ProductID) VALUES (?, ?)`,
-      [UserID, ProductID]
+      `INSERT INTO ShopCarts (UserID) VALUES (?)`,
+      [UserID]
     );
 
     res.status(201).json(rows[0]); 
@@ -73,16 +75,16 @@ app.post('/shopcarts', async (req, res) => {
 // PUT /shopcarts/{id}
 app.put('/shopcarts/:id', async (req, res) => {
   const { id } = req.params;
-  const { UserID, ProductID } = req.body; 
+  const { UserID } = req.body; 
   
-  if (!UserID || !ProductID) {
+  if (!UserID) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `UPDATE ShopCarts SET UserID = ?, ProductID = ? WHERE ShopCartID = ?`,
-      [UserID, ProductID, id]
+      `UPDATE ShopCarts SET UserID = ? WHERE ShopCartID = ?`,
+      [UserID, id]
     );
     if (rows.length === 0) {
       return res.status(404).send('Shopcart not found');

@@ -35,7 +35,8 @@ function Login() {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <div style={{backgroundColor: '#97c0ff'}}>
+      <Form onSubmit={handleSubmit} style={{backgroundColor: '#ffffff'}}>
     <h1>Anmeldung</h1>
       <Form.Group className="mb-3" controlId="userName">
         <Form.Label>Benutzername</Form.Label>
@@ -51,6 +52,7 @@ function Login() {
       </Button>
       <Button variant="link" href="/register">Neu hier?</Button>
     </Form>
+    </div>
   );
 }
 

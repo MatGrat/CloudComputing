@@ -57,17 +57,19 @@ export function GetOrder(orderID) {
     return { data, loading, error };
 }
 
-export async function CreateOrder(userID, productID, orderQuantity) {
+export async function CreateOrder(shopCartID, productID, orderQuantity) {
     try {
         const response = await fetch(ORDER_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                UserID: userID,
+                ShopCartID: shopCartID,
                 ProductID: productID,
                 OrderQuantity: orderQuantity,
             }),
         });
+
+        console.log('Creating Order with:', shopCartID, productID, orderQuantity);
 
         if (!response.ok) {
             throw new Error('Error create order');
@@ -80,13 +82,13 @@ export async function CreateOrder(userID, productID, orderQuantity) {
     }
 }
 
-export async function UpdateOrder(orderID, userID, productID, orderQuantity) {
+export async function UpdateOrder(orderID, shopCartID, productID, orderQuantity) {
     try {
         const response = await fetch(`${ORDER_URL}/${orderID}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                UserID: userID,
+                ShopCartID: shopCartID,
                 ProductID: productID,
                 OrderQuantity: orderQuantity,
             }),

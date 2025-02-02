@@ -57,17 +57,17 @@ export function GetShopCart(shopCartID) {
     return { data, loading, error };
 }
 
-export async function CreateShopCart(userID, productID, orderQuantity) {
+export async function CreateShopCart(userID) {
     try {
         const response = await fetch(SHOPCART_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                UserID: userID,
-                ProductID: productID,
-                OrderQuantity: orderQuantity,
+                UserID: userID
             }),
         });
+
+        console.log('Creating ShopCart with:', userID);
 
         if (!response.ok) {
             throw new Error('Error create shopCart');
@@ -80,15 +80,13 @@ export async function CreateShopCart(userID, productID, orderQuantity) {
     }
 }
 
-export async function UpdateShopCart(shopCartID, userID, productID, orderQuantity) {
+export async function UpdateShopCart(shopCartID, userID) {
     try {
         const response = await fetch(`${SHOPCART_URL}/${shopCartID}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                UserID: userID,
-                ProductID: productID,
-                OrderQuantity: orderQuantity,
+                UserID: userID
             }),
         });
 

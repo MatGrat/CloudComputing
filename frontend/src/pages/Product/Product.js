@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import { GetProduct } from '../../hooks/produkt-hook';
+import { CreateOrder } from '../../hooks/order-hook';
+import { GetShopCarts, CreateShopCart } from '../../hooks/shop-cart-hook';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Card from 'react-bootstrap/Card';
 import styles from './Product.module.css';
@@ -9,10 +11,29 @@ import Button from 'react-bootstrap/Button';
 function Product() {
     const { id } = useParams();
     const {data: product, loading, error } = GetProduct(id);
+    const {data: shopCarts } = GetShopCarts();
+    
+    const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
+      const [name, value] = cookie.split('=');
+      acc[name] = value;
+      return acc;
+    }, {});
     
     if(loading) return <p>Loading...</p>;
     if(error) return <p>Error: {error}</p>;
-    
+
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const foundShopCart = shopCarts.find((shopCart) => parseInt(shopCart.UserID) === parseInt(cookies.loggedUser));
+
+      if(!foundShopCart) {
+        const shopCartID = CreateShopCart(parseInt(cookies.loggedUser));
+        CreateOrder(parseInt(shopCartID), parseInt(product.ProductID), parseInt(formData.get('productValue')));
+      } else {
+        CreateOrder(parseInt(foundShopCart.ShopCartID), parseInt(product.ProductID), parseInt(formData.get('productValue')));
+      }
+    }
 
     return (
         <CardGroup>
@@ -33,15 +54,15 @@ function Product() {
               <p/>
               {product.ProductDescription}
             </Card.Text>
-            <Form>
-                <Form.Group className="mb-3" controlId="formSelectValue">
-                <Form.Select>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                <Form.Select controlId="productValue" name="productValue">
                   {Array.from({ length: product.ProductInventory }).map((_, i) => (
                     <option key={i + 1} value={i + 1}>
                     Menge: {i + 1}
                   </option>
                   ))}
-                </Form.Select>
+                </Form.Select >
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     In den ShopWagen
