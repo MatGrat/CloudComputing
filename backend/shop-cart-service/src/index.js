@@ -49,6 +49,35 @@ app.get('/shopcarts/:id', async (req, res) => {
   }
 });
 
+// GET /shopcarts/products/{userid}
+app.get('/shopcarts/products/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query(
+    `SELECT 
+    o.OrderQuantity, 
+    p.ProductName, 
+    p.ProductDescription, 
+    p.ProductPrice, 
+    p.ProductImageURL, 
+    p.ProductInventory, 
+    p.ProductDeliveryDays 
+    FROM Users u
+    JOIN ShopCarts sc ON u.UserID = sc.UserID
+    JOIN Orders o ON sc.ShopCartID = o.ShopCartID
+    JOIN Products p ON o.ProductID = p.ProductID 
+    WHERE u.UserID = ?`
+    , [id]);
+    if (rows.length === 0) {
+      return res.status(404).send('No products, no shopcard oder no user with the same ID!');
+    }
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching shopcart');
+  }
+});
+
 // POST /shopcarts
 app.post('/shopcarts', async (req, res) => {
   const { UserID } = req.body;

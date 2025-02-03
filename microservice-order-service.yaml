@@ -5,12 +5,12 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.35.0 (9532ceef3)
   labels:
-    io.kompose.service: microservice-order
-  name: microservice-order
+    io.kompose.service: cloudcomputing-microservice-order
+  name: cloudcomputing-microservice-order
 spec:
   ports:
     - name: "5003"
       port: 5003
       targetPort: 5003
   selector:
-    io.kompose.service: microservice-order
+    io.kompose.service: cloudcomputing-microservice-order

@@ -49,6 +49,21 @@ app.get('/orders/:id', async (req, res) => {
   }
 });
 
+// GET /orders/shopcart/{shopcartid}
+app.get('/orders/shopcart/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [rows] = await pool.query(`SELECT * FROM Orders WHERE ShopCartID = ?`, [id]);
+    if (rows.length === 0) {
+      return res.status(404).send('Order not found');
+    }
+    res.status(200).json(rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching order');
+  }
+});
+
 // POST /orders
 app.post('/orders', async (req, res) => {
   const { ShopCartID, ProductID, OrderQuantity } = req.body;

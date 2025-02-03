@@ -5,12 +5,12 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.35.0 (9532ceef3)
   labels:
-    io.kompose.service: hs-frontend
-  name: hs-frontend
+    io.kompose.service: cloudcomputing-hs-frontend
+  name: cloudcomputing-hs-frontend
 spec:
   ports:
     - name: "3000"
       port: 3000
       targetPort: 3000
   selector:
-    io.kompose.service: hs-frontend
+    io.kompose.service: cloudcomputing-hs-frontend

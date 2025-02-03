@@ -57,6 +57,33 @@ export function GetShopCart(shopCartID) {
     return { data, loading, error };
 }
 
+export function GetShopCartProducts(userID) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${SHOPCART_URL}/products/${userID}`);
+                if (!response.ok) {
+                    throw new Error('Error get products');
+                }
+                const result = await response.json();
+                setData(result);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [userID]); 
+
+    return { data, loading, error };
+}
+
 export async function CreateShopCart(userID) {
     try {
         const response = await fetch(SHOPCART_URL, {

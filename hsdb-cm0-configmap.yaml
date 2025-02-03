@@ -90,5 +90,5 @@ data:
 kind: ConfigMap
 metadata:
   labels:
-    io.kompose.service: hsdb
-  name: hsdb-cm0
+    io.kompose.service: cloudcomputing-hsdb
+  name: cloudcomputing-hsdb-cm0

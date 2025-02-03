@@ -81,5 +81,5 @@ data:
 kind: ConfigMap
 metadata:
   labels:
-    io.kompose.service: hs-frontend
-  name: hs-frontend-cm0
+    io.kompose.service: cloudcomputing-hs-frontend
+  name: cloudcomputing-hs-frontend-cm0
