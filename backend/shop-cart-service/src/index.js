@@ -54,8 +54,10 @@ app.get('/shopcarts/products/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const [rows] = await pool.query(
-    `SELECT 
-    o.OrderQuantity, 
+    `SELECT
+    o.OrderID, 
+    o.OrderQuantity,
+    p.ProductID, 
     p.ProductName, 
     p.ProductDescription, 
     p.ProductPrice, 

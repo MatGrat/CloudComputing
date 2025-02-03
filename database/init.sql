@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Users (
 CREATE TABLE IF NOT EXISTS ShopCarts (
     ShopCartID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Orders (
@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS Orders (
     ShopCartID INT NOT NULL,
     ProductID INT NOT NULL,
     OrderQuantity INT NOT NULL,
-    FOREIGN KEY (ShopCartID) REFERENCES ShopCarts(ShopCartID),
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+    FOREIGN KEY (ShopCartID) REFERENCES ShopCarts(ShopCartID) ON DELETE CASCADE,
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
 );
 
 INSERT INTO Products (ProductName, ProductDescription, ProductPrice, ProductImageURL, ProductInventory, ProductDeliveryDays)
