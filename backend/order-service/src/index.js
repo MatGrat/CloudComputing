@@ -66,16 +66,16 @@ app.get('/orders/shopcart/:id', async (req, res) => {
 
 // POST /orders
 app.post('/orders', async (req, res) => {
-  const { ShopCartID, ProductID, OrderQuantity } = req.body;
+  const { ShopCartID, OrderHistoryID, ProductID, OrderQuantity } = req.body;
 
-  if (!ShopCartID || !ProductID|| !OrderQuantity) {
+  if (!ProductID|| !OrderQuantity) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `INSERT INTO Orders (ShopCartID, ProductID, OrderQuantity) VALUES (?, ?, ?)`,
-      [ShopCartID, ProductID, OrderQuantity]
+      `INSERT INTO Orders (ShopCartID, OrderHistoryID, ProductID, OrderQuantity) VALUES (?, ?, ?, ?)`,
+      [ShopCartID, OrderHistoryID, ProductID, OrderQuantity]
     );
 
     res.status(201).json(rows[0]); 
@@ -88,16 +88,16 @@ app.post('/orders', async (req, res) => {
 // PUT /orders/{id}
 app.put('/orders/:id', async (req, res) => {
   const { id } = req.params;
-  const { ShopCartID, ProductID, OrderQuantity } = req.body; 
+  const { ShopCartID, OrderHistoryID, ProductID, OrderQuantity } = req.body; 
   
-  if (!ShopCartID || !ProductID|| !OrderQuantity) {
+  if (!ProductID|| !OrderQuantity) {
     return res.status(400).send('Missing fields');
   }
 
   try {
     const [rows] = await pool.query(
-      `UPDATE Orders SET ShopCartID = ?, ProductID = ?, OrderQuantity = ? WHERE OrderID = ?`,
-      [ShopCartID, ProductID, OrderQuantity ,id]
+      `UPDATE Orders SET ShopCartID = ?, OrderHistoryID = ?, ProductID = ?, OrderQuantity = ? WHERE OrderID = ?`,
+      [ShopCartID, OrderHistoryID, ProductID, OrderQuantity ,id]
     );
     if (rows.length === 0) {
       return res.status(404).send('Order not found');

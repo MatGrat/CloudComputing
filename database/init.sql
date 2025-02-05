@@ -31,16 +31,24 @@ CREATE TABLE IF NOT EXISTS Users (
 CREATE TABLE IF NOT EXISTS ShopCarts (
     ShopCartID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+CREATE TABLE IF NOT EXISTS OrderHistorys (
+    OrderHistoryID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 CREATE TABLE IF NOT EXISTS Orders (
     OrderID INT AUTO_INCREMENT PRIMARY KEY,
-    ShopCartID INT NOT NULL,
+    ShopCartID INT,
+    OrderHistoryID INT,
     ProductID INT NOT NULL,
     OrderQuantity INT NOT NULL,
-    FOREIGN KEY (ShopCartID) REFERENCES ShopCarts(ShopCartID) ON DELETE CASCADE,
-    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
+    FOREIGN KEY (ShopCartID) REFERENCES ShopCarts(ShopCartID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (OrderHistoryID) REFERENCES OrderHistorys(OrderHistoryID)
 );
 
 INSERT INTO Products (ProductName, ProductDescription, ProductPrice, ProductImageURL, ProductInventory, ProductDeliveryDays)
@@ -76,4 +84,7 @@ SELECT '100g Käse', 'Beschreibung von Produkt 8', 3.99, 'https://images.unsplas
 WHERE NOT EXISTS (SELECT 1 FROM Products WHERE ProductName = '100g Käse');
 
 INSERT INTO Users (UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserZIP, UserIBAN)
-VALUES ('MaxMustermann', 'max@mail.de', 'Max', 'Mustermann', 'password123', 'Musterstraße 1', 'Musterstadt', '12345', 'DE12345678901234567890');
+VALUES ('test', 'test@test.de', 'test', 'test', 'test', 'test 123', 'test', '12345', 'DE12345678901234567890');
+
+INSERT INTO OrderHistorys (UserID)
+VALUES (1);

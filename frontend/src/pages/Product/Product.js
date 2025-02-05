@@ -22,16 +22,18 @@ function Product() {
     if(loading) return <p>Loading...</p>;
     if(error) return <p>Error: {error}</p>;
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
       event.preventDefault();
       const formData = new FormData(event.target);
       const foundShopCart = shopCarts.find((shopCart) => parseInt(shopCart.UserID) === parseInt(cookies.loggedUser));
 
+      console.log(foundShopCart);
+
       if(!foundShopCart) {
-        const shopCartID = CreateShopCart(parseInt(cookies.loggedUser));
-        CreateOrder(parseInt(shopCartID), parseInt(product.ProductID), parseInt(formData.get('productValue')));
+        const shopCartID = await CreateShopCart(parseInt(cookies.loggedUser));
+        await CreateOrder(parseInt(shopCartID), null, parseInt(product.ProductID), parseInt(formData.get('productValue')));
       } else {
-        CreateOrder(parseInt(foundShopCart.ShopCartID), parseInt(product.ProductID), parseInt(formData.get('productValue')));
+        await CreateOrder(parseInt(foundShopCart.ShopCartID), null, parseInt(product.ProductID), parseInt(formData.get('productValue')));
       }
     }
 

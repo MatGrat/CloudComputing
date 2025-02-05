@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-const ORDER_URL = 'http://localhost:5003/orders';
+const ORDERHISTORY_URL = 'http://localhost:5007/orderhistorys';
 
-export function GetOrders() {
+export function GetOrderHistorys() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -10,9 +10,9 @@ export function GetOrders() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(ORDER_URL);
+                const response = await fetch(ORDERHISTORY_URL);
                 if (!response.ok) {
-                    throw new Error('Error get orders');
+                    throw new Error('Error get orderHistory');
                 }
                 const result = await response.json();
                 setData(result);
@@ -29,7 +29,8 @@ export function GetOrders() {
     return { data, loading, error };
 }
 
-export function GetOrdersByShopCart(shopCartID) {
+
+export function GetOrderHistory(orderHistoryID) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -37,9 +38,9 @@ export function GetOrdersByShopCart(shopCartID) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${ORDER_URL}/shopcart/${shopCartID}`);
+                const response = await fetch(`${ORDERHISTORY_URL}/${orderHistoryID}`);
                 if (!response.ok) {
-                    throw new Error('Error get orders');
+                    throw new Error('Error get orderHistory');
                 }
                 const result = await response.json();
                 setData(result);
@@ -51,13 +52,12 @@ export function GetOrdersByShopCart(shopCartID) {
         };
 
         fetchData();
-    }, [shopCartID]);
+    }, [orderHistoryID]); 
 
     return { data, loading, error };
 }
 
-
-export function GetOrder(orderID) {
+export function GetOrderHistoryProducts(userID) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -65,9 +65,9 @@ export function GetOrder(orderID) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${ORDER_URL}/${orderID}`);
+                const response = await fetch(`${ORDERHISTORY_URL}/products/${userID}`);
                 if (!response.ok) {
-                    throw new Error('Error get order');
+                    throw new Error('Error get products');
                 }
                 const result = await response.json();
                 setData(result);
@@ -79,25 +79,23 @@ export function GetOrder(orderID) {
         };
 
         fetchData();
-    }, [orderID]); 
+    }, [userID]); 
 
     return { data, loading, error };
 }
 
-export async function CreateOrder(shopCartID, orderHistoryID, productID, orderQuantity) {
+export async function CreateOrderHistory(userID) {
     try {
-        const response = await fetch(ORDER_URL, {
+        const response = await fetch(ORDERHISTORY_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                ShopCartID: shopCartID,
-                OrderHistoryID: orderHistoryID,
-                ProductID: productID,
-                OrderQuantity: orderQuantity,
+                UserID: userID
             }),
         });
+
         if (!response.ok) {
-            throw new Error('Error create order');
+            throw new Error('Error create orderHistory');
         }
 
         const result = await response.json();
@@ -107,21 +105,18 @@ export async function CreateOrder(shopCartID, orderHistoryID, productID, orderQu
     }
 }
 
-export async function UpdateOrder(orderID, shopCartID, orderHistoryID, productID, orderQuantity) {
+export async function UpdateOrderHistory(orderHistoryID, userID) {
     try {
-        const response = await fetch(`${ORDER_URL}/${orderID}`, {
+        const response = await fetch(`${ORDERHISTORY_URL}/${orderHistoryID}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                ShopCartID: shopCartID,
-                OrderHistoryID: orderHistoryID,
-                ProductID: productID,
-                OrderQuantity: orderQuantity,
+                UserID: userID
             }),
         });
 
         if (!response.ok) {
-            throw new Error('Error update order');
+            throw new Error('Error update orderHistory');
         }
 
         const result = await response.json();
@@ -131,14 +126,14 @@ export async function UpdateOrder(orderID, shopCartID, orderHistoryID, productID
     }
 }
 
-export async function DeleteOrder(orderID) {
+export async function DeleteOrderHistory(orderHistoryID) {
     try {
-        const response = await fetch(`${ORDER_URL}/${orderID}`, {
+        const response = await fetch(`${ORDERHISTORY_URL}/${orderHistoryID}`, {
             method: 'DELETE',
         });
 
         if (!response.ok) {
-            throw new Error('Error delete order');
+            throw new Error('Error delete orderHistory');
         }
 
         return true; 

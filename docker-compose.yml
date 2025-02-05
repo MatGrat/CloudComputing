@@ -82,6 +82,18 @@ services:
     networks:
       - hs-network   
 
+  microservice-order-history:
+    build: 
+      context: ./backend/order-history-service
+      dockerfile: Dockerfile
+    container_name: microservice-order-history
+    ports:
+      - "5007:5007"
+    depends_on:
+      - hsdb
+    networks:
+      - hs-network  
+
   hs-nginx:
     image: nginx
     container_name: hs-nginx

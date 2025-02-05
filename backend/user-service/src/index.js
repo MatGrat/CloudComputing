@@ -63,7 +63,7 @@ app.post('/users', async (req, res) => {
       [UserName, UserMail, UserFirstName, UserLastName, UserPassword, UserStreet, UserCity, UserZIP, UserIBAN]
     );
 
-    res.status(201).json(rows[0]); 
+    res.status(201).json({ UserID: rows.insertId }); 
   } catch (error) {
     console.error(error);
     res.status(500).send('Error creating user');
@@ -87,7 +87,7 @@ app.put('/users/:id', async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send('User not found');
     }
-    res.status(200).json(rows[0]);
+    res.status(200).json({ UserID: result.insertId });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error updating user');

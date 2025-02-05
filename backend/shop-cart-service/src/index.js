@@ -71,7 +71,7 @@ app.get('/shopcarts/products/:id', async (req, res) => {
     WHERE u.UserID = ?`
     , [id]);
     if (rows.length === 0) {
-      return res.status(404).send('No products, no shopcard oder no user with the same ID!');
+      return res.status(404).send('No products, no shopcard or no user with the same ID!');
     }
     res.status(200).json(rows);
   } catch (error) {
@@ -84,8 +84,6 @@ app.get('/shopcarts/products/:id', async (req, res) => {
 app.post('/shopcarts', async (req, res) => {
   const { UserID } = req.body;
 
-  console.log(UserID);
-
   if (!UserID) {
     return res.status(400).send('Missing fields');
   }
@@ -96,7 +94,7 @@ app.post('/shopcarts', async (req, res) => {
       [UserID]
     );
 
-    res.status(201).json(rows[0]); 
+    res.status(201).json({ ShopCartID: res.insertId }); 
   } catch (error) {
     console.error(error);
     res.status(500).send('Error creating shopcart');

@@ -1,7 +1,7 @@
 import Card from 'react-bootstrap/Card';
-import { useParams } from "react-router-dom";
-import { DeleteShopCart, GetShopCartProducts } from '../../hooks/shop-cart-hook';
-import { DeleteOrder } from '../../hooks/order-hook';
+import { GetShopCartProducts } from '../../hooks/shop-cart-hook';
+import { GetOrderHistorys } from '../../hooks/order-history-hook';
+import { DeleteOrder, UpdateOrder } from '../../hooks/order-hook';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 
@@ -11,12 +11,27 @@ function ShopCart() {
     acc[name] = value;
     return acc;
   }, {});
-  const { shopCartID } = useParams();
+
   const {data: products } = GetShopCartProducts(cookies.loggedUser);
+  const {data: orderHistorys } = GetOrderHistorys();
 
   if (!products) {
     return <p>Keine Produkte im Warenkorb.</p>;
   }
+
+  var foundOrderHistory = null;
+  if(orderHistorys != null) {
+    foundOrderHistory = orderHistorys.find((orderHistory) => parseInt(orderHistory.UserID) === parseInt(cookies.loggedUser));
+  } 
+
+  const MoveOrdersToHistory = async () => {
+    await Promise.all(
+      products.map(async (product) => {
+      await UpdateOrder(product.OrderID, null, foundOrderHistory.OrderHistoryID, product.ProductID, product.OrderQuantity);
+      })
+    );
+  };
+
 
     return (
       <Card style={{ width: '18rem' }}>
@@ -40,7 +55,7 @@ function ShopCart() {
           </ListGroup>
         ))}
         <Card.Footer>
-          <Button onClick={() => DeleteShopCart(shopCartID)}>
+          <Button onClick={() => MoveOrdersToHistory()}>
             Jetzt bestellen!
           </Button>
         </Card.Footer>

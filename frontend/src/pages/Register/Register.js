@@ -1,13 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { CreateUser } from '../../hooks/user-hook';
+import { CreateOrderHistory } from '../../hooks/order-history-hook';
 
 function Register() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
 
-    CreateUser(
+    const userID = await CreateUser(
       formData.get('userName'),
       formData.get('userMail'),
       formData.get('userFirstName'),
@@ -18,6 +19,8 @@ function Register() {
       formData.get('userZIP'),
       formData.get('userIBAN')
     );
+
+    await CreateOrderHistory(userID.UserID);
   }
 
   return (
