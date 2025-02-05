@@ -2,8 +2,10 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { CreateUser } from '../../hooks/user-hook';
 import { CreateOrderHistory } from '../../hooks/order-history-hook';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -21,6 +23,7 @@ function Register() {
     );
 
     await CreateOrderHistory(userID.UserID);
+    navigate("/login");
   }
 
   return (
