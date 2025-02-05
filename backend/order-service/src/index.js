@@ -78,7 +78,7 @@ app.post('/orders', async (req, res) => {
       [ShopCartID, OrderHistoryID, ProductID, OrderQuantity]
     );
 
-    res.status(201).json(rows[0]); 
+    res.status(201).json({ message: "Order created successfully", OrderID: rows.insertId }); 
   } catch (error) {
     console.error(error);
     res.status(500).send('Error creating order');
@@ -102,7 +102,7 @@ app.put('/orders/:id', async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send('Order not found');
     }
-    res.status(200).json(rows[0]);
+    res.status(200).json({ message: "Order updated successfully", OrderID: rows.insertId });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error updating order');

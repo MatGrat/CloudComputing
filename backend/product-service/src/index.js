@@ -61,7 +61,7 @@ app.post('/products', async (req, res) => {
       [ProductName, ProductDescription, ProductPrice, ProductImageURL]
     );
 
-    res.status(201).json(rows[0]); 
+    res.status(201).json({ message: "Product created successfully", ProductID: rows.insertId }); 
   } catch (error) {
     console.error(error);
     res.status(500).send('Error creating product');
@@ -85,7 +85,7 @@ app.put('/products/:id', async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send('Product not found');
     }
-    res.status(200).json(rows[0]);
+    res.status(200).json({ message: "Product updated successfully", ProductID: rows.insertId });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error updating product');

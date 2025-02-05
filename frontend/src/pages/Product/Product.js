@@ -31,7 +31,7 @@ function Product() {
 
       if(!foundShopCart) {
         const shopCartID = await CreateShopCart(parseInt(cookies.loggedUser));
-        await CreateOrder(parseInt(shopCartID), null, parseInt(product.ProductID), parseInt(formData.get('productValue')));
+        await CreateOrder(parseInt(shopCartID.ShopCartID), null, parseInt(product.ProductID), parseInt(formData.get('productValue')));
       } else {
         await CreateOrder(parseInt(foundShopCart.ShopCartID), null, parseInt(product.ProductID), parseInt(formData.get('productValue')));
       }

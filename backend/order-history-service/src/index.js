@@ -94,7 +94,7 @@ app.post('/orderhistorys', async (req, res) => {
       [UserID]
     );
 
-    res.status(201).json(rows[0]); 
+    res.status(201).json({ message: "OrderHistory created successfully", OrderHistoryID: rows.insertId }); 
   } catch (error) {
     console.error(error);
     res.status(500).send('Error creating orderHistory');
@@ -118,7 +118,7 @@ app.put('/orderhistorys/:id', async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send('OrderHistory not found');
     }
-    res.status(200).json(rows[0]);
+    res.status(200).json({ message: "OrderHistory updated successfully", OrderHistoryID: rows.insertId });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error updating orderHistory');

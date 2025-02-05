@@ -94,7 +94,7 @@ app.post('/shopcarts', async (req, res) => {
       [UserID]
     );
 
-    res.status(201).json({ ShopCartID: res.insertId }); 
+    res.status(201).json({ message: "Shopcart created successfully", ShopCartID: rows.insertId }); 
   } catch (error) {
     console.error(error);
     res.status(500).send('Error creating shopcart');
@@ -118,7 +118,7 @@ app.put('/shopcarts/:id', async (req, res) => {
     if (rows.length === 0) {
       return res.status(404).send('Shopcart not found');
     }
-    res.status(200).json(rows[0]);
+    res.status(200).json({ message: "Shopcart updated successfully", ShopCartID: rows.insertId });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error updating shopcart');

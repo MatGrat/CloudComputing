@@ -22,7 +22,12 @@ function ShopCart() {
   var foundOrderHistory = null;
   if(orderHistorys != null) {
     foundOrderHistory = orderHistorys.find((orderHistory) => parseInt(orderHistory.UserID) === parseInt(cookies.loggedUser));
-  } 
+  }
+  
+  const handleDelete = async (orderID) => {
+    await DeleteOrder(orderID);
+    window.location.reload();
+  };
 
   const MoveOrdersToHistory = async () => {
     await Promise.all(
@@ -30,6 +35,7 @@ function ShopCart() {
       await UpdateOrder(product.OrderID, null, foundOrderHistory.OrderHistoryID, product.ProductID, product.OrderQuantity);
       })
     );
+    window.location.reload();
   };
 
 
@@ -48,7 +54,7 @@ function ShopCart() {
                 </Card.Text>
               </Card.Body>
             <Card.Footer>
-            <Button onClick={() => DeleteOrder(product.OrderID)}>
+            <Button onClick={() => handleDelete(product.OrderID)}>
               Löschen
           </Button>
             </Card.Footer>

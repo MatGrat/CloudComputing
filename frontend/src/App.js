@@ -5,6 +5,7 @@ import Account from './pages/Account/Account.js';
 import ShopCart from './pages/ShopCart/ShopCart.js';
 import Product from './pages/Product/Product.js';
 import Register from './pages/Register/Register.js';
+import UserDataChange from './pages/UserDataChange/UserDataChange.js';
 import Login from './pages/Login/Login.js';
 import { GetShopCarts } from './hooks/shop-cart-hook.js';
 
@@ -42,6 +43,7 @@ function App() {
         )}
         <Route path="/product/:id" element={<Product/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/userdatachange" element={<UserDataChange/>}/>
         <Route path="/register" element={<Register/>}/>
       </Routes>
     </BrowserRouter>

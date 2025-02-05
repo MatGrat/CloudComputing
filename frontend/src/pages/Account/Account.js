@@ -26,15 +26,15 @@ function Account() {
     navigate("/");
   }
 
-  const order = (event) => {
+  const order = (event, orderID, orderQuantity) => {
         event.preventDefault();
         const foundShopCart = shopCarts.find((shopCart) => parseInt(shopCart.UserID) === parseInt(cookies.loggedUser));
   
         if(!foundShopCart) {
           const shopCartID = CreateShopCart(parseInt(cookies.loggedUser));
-          CreateOrder(parseInt(shopCartID), null, null);
+          CreateOrder(parseInt(shopCartID.ShopCartID), null, orderID, orderQuantity);
         } else {
-          CreateOrder(parseInt(foundShopCart.ShopCartID), null, null);
+          CreateOrder(parseInt(foundShopCart.ShopCartID), null, orderID, orderQuantity);
         }
   }
 
@@ -60,7 +60,7 @@ function Account() {
             <br/>
           </Card.Body>
           <Card.Footer>
-            <Button variant="primary">
+            <Button variant="primary" href="/userdatachange">
                   Daten Ändern
             </Button>
           </Card.Footer>
@@ -80,7 +80,7 @@ function Account() {
               </Card.Text>
             </Card.Body>
             <Card.Footer>
-              <Button onClick={() => order(product.OrderID, product.OrderQuantity)}>
+              <Button onClick={(event) => order(event, product.ProductID, product.OrderQuantity)}>
                 Nochmal bestellen
               </Button>
             </Card.Footer>
