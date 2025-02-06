@@ -23,5 +23,5 @@ If you want to work with Kubernetes:
    - minikube start
    - kubectl apply -f .
    - kubectl get pods (Get all Pods with name etc.)
-   - kubectl port-forward cloudcomputing-hs-frontend-<Pod-Name-Ending> 3000:3000
+   - kubectl port-forward cloudcomputing-hs-frontend-(Pod-Name-Ending) 3000:3000
 4. The application can then be accessed at http://localhost:3000/
