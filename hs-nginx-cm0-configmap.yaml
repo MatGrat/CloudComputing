@@ -6,5 +6,5 @@ metadata:
   annotations:
     use-subpath: "true"
   labels:
-    io.kompose.service: hs-nginx
-  name: hs-nginx-cm0
+    io.kompose.service: cloudcomputing-hs-nginx
+  name: cloudcomputing-hs-nginx-cm0
